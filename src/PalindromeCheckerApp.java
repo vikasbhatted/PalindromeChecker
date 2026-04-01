@@ -1,92 +1,53 @@
 /**
  * ============================================================
- * MAIN CLASS - UseCase8PalindromeCheckerApp
+ * MAIN CLASS - UseCase9PalindromeCheckerApp
  * ============================================================
  *
- * Use Case 8: Linked List Based Palindrome Checker
+ * Use Case 9: Recursive Palindrome Checker
  *
  * Goal:
- * Check palindrome using singly linked list.
+ * Check palindrome using recursion.
  *
  * Flow:
- * 1. Convert string to linked list
- * 2. Reverse second half
- * 3. Compare halves
+ * 1. Recursive call compares start and end
+ * 2. Base condition exits recursion
  *
- * Data Structure: Singly Linked List
+ * Data Structure Used: Call Stack
  */
 
 public class PalindromeCheckerApp {
-    static class Node {
-        char data;
-        Node next;
-
-        Node(char data) {
-            this.data = data;
-            this.next = null;
-        }
-    }
 
     public static void main(String[] args) {
 
-        String input = "level";
-        Node head = buildLinkedList(input);
-        boolean isPalindrome = isPalindrome(head);
+        String input = "madam";
+
+        boolean result = checkPalindrome(input, 0, input.length() - 1);
 
         System.out.println("Input: " + input);
-        System.out.println("Is Palindrome?: " + isPalindrome);
+        System.out.println("Is Palindrome?: " + result);
     }
-    private static Node buildLinkedList(String str) {
-        Node head = null;
-        Node tail = null;
 
-        for (char c : str.toCharArray()) {
-            Node newNode = new Node(c);
-            if (head == null) {
-                head = newNode;
-                tail = newNode;
-            } else {
-                tail.next = newNode;
-                tail = newNode;
-            }
-        }
-        return head;
-    }
-    private static boolean isPalindrome(Node head) {
+    /**
+     * Recursively checks whether a string is a palindrome.
+     *
+     * @param s     Input string
+     * @param start Starting index
+     * @param end   Ending index
+     * @return true if palindrome, otherwise false
+     */
+    private static boolean checkPalindrome(String s, int start, int end) {
 
-        if (head == null || head.next == null)
+        // Base condition: pointers crossed or equal
+        if (start >= end) {
             return true;
-
-        Node slow = head;
-        Node fast = head;
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
-            fast = fast.next.next;
-        }
-        Node secondHalf = reverse(slow);
-
-        Node firstHalf = head;
-        while (secondHalf != null) {
-            if (firstHalf.data != secondHalf.data) {
-                return false;
-            }
-            firstHalf = firstHalf.next;
-            secondHalf = secondHalf.next;
         }
 
-        return true;
-    }
-    private static Node reverse(Node head) {
-        Node prev = null;
-        Node current = head;
-
-        while (current != null) {
-            Node nextNode = current.next;
-            current.next = prev;
-            prev = current;
-            current = nextNode;
+        // If mismatch found
+        if (s.charAt(start) != s.charAt(end)) {
+            return false;
         }
 
-        return prev;
+        // Recursive call (move inward)
+        return checkPalindrome(s, start + 1, end - 1);
     }
 }
