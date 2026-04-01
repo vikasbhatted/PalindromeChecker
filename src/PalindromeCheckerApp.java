@@ -1,25 +1,36 @@
-import java.util.Scanner;
-
 public class PalindromeCheckerApp {
 
+    /**
+     * Application entry point for UC2.
+     *
+     * @param args Command-line arguments
+     */
     public static void main(String[] args) {
+        String input = "madam";
+        System.out.println("Input text: " + input);
+        String reverse = "";
+        for (int i = input.length() - 1; i >= 0; i--) {
+            reverse += input.charAt(i);
 
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter a word: ");
-        String Text = sc.nextLine();
+            char[] chars = input.toCharArray();
+            int left = 0;
+            int right = chars.length - 1;
+            boolean isPalindrome = true;
 
-        String reversed = "";
+            while (left < right) {
+                if (chars[left] != chars[right]) {
+                    isPalindrome = false;
+                    break;
+                }
+                left++;
+                right--;
+            }
 
-        for(int i = Text.length() - 1; i >= 0; i--) {
-            reversed += Text.charAt(i);
+            System.out.print("It it a Palindrome? : ");
+            System.out.println(input.equals(reverse));
+            System.out.print("It is a Palindrome? : ");
+            System.out.println(isPalindrome);
         }
 
-        if(Text.equals(reversed)) {
-            System.out.println("It is a Palindrome");
-        } else {
-            System.out.println("Not a Palindrome");
-        }
-
-        sc.close();
     }
 }
